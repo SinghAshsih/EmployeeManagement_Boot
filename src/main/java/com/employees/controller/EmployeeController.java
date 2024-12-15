@@ -1,6 +1,7 @@
 package com.employees.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,13 @@ public class EmployeeController {
 	private EmployeeService employeeService;
 
 	@GetMapping("/{id}")
-	ResponseEntity<Employee> getEmployee(@PathVariable Integer id) {
-		Employee employee = employeeService.getEmployee(id);
-		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+	ResponseEntity<?> getEmployee(@PathVariable Integer id) {
+		Optional<Employee> employee = employeeService.getEmployee(id);
+		if (employee.isPresent()) {
+			return new ResponseEntity<Employee>(employee.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("No Employee found ", HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@GetMapping("/all")

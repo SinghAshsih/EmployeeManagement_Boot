@@ -1,6 +1,7 @@
 package com.employees.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee createEmployee(Employee employee) {
 		// TODO Auto-generated method stub
-		return employeeRepository.save(employee);
+		Employee saveEmployee = employeeRepository.save(employee);
+		return saveEmployee;
 	}
 
 	@Override
 	public List<Employee> getAllEmployees() {
 		// TODO Auto-generated method stub
-		return employeeRepository.findAll();
+		List<Employee> findAllEmployees = employeeRepository.findAll();
+		return findAllEmployees;
 	}
 
 	@Override
@@ -34,9 +37,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee getEmployee(Integer id) {
+	public Optional<Employee> getEmployee(Integer id) {
 		// TODO Auto-generated method stub
-		return employeeRepository.findById(id).get();
+		Optional<Employee> findById = employeeRepository.findById(id);
+		return findById;
 	}
 
 }
