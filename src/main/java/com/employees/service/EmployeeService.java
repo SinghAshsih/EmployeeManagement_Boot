@@ -12,5 +12,5 @@ public interface EmployeeService {
 
 	public void deleteEmployee(Integer id);
 
-	public Optional<Employee> getEmployee(Integer id);
+	public Employee getEmployee(Integer id);
 }

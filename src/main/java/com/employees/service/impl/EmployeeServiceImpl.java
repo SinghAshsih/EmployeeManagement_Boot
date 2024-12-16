@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.employees.entity.Employee;
+import com.employees.exception.custom.ResourceNotFoundException;
 import com.employees.repository.EmployeeRepository;
 import com.employees.service.EmployeeService;
 
@@ -33,14 +34,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void deleteEmployee(Integer id) {
 		// TODO Auto-generated method stub
-		employeeRepository.deleteById(id);
+		Optional<Employee> findById = employeeRepository.findById(id);
+		if (findById.isPresent()) {
+			employeeRepository.deleteById(id);
+		} else {
+			findById.orElseThrow(() -> new ResourceNotFoundException("Resource not found with the given id : " + id));
+		}
 	}
 
 	@Override
-	public Optional<Employee> getEmployee(Integer id) {
+	public Employee getEmployee(Integer id) {
 		// TODO Auto-generated method stub
 		Optional<Employee> findById = employeeRepository.findById(id);
-		return findById;
+		if (findById.isPresent()) {
+			return findById.get();
+		} else {
+			return findById
+					.orElseThrow(() -> new ResourceNotFoundException("Resource not found with the given id : " + id));
+		}
 	}
 
 }
