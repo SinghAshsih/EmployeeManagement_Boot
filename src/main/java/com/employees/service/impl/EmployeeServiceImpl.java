@@ -54,4 +54,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	}
 
+	@Override
+	public Employee findByName(String name) {
+		Optional<Employee> findByName = employeeRepository.findByName(name);
+		if (findByName.isPresent()) {
+			return findByName.get();
+		} else {
+			return findByName.orElseThrow(
+					() -> new ResourceNotFoundException("Resource not found with the given name : " + name));
+		}
+	}
+
+	@Override
+	public Employee findByDepartment(String name) {
+		// TODO Auto-generated method stub
+		Optional<Employee> findByDepartmentName = employeeRepository.findByDepartment(name);
+		if (findByDepartmentName.isPresent()) {
+			return findByDepartmentName.get();
+		} else {
+			return findByDepartmentName.orElseThrow(
+					() -> new ResourceNotFoundException("Resource not found with the given name : " + name));
+		}
+	}
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.employees.entity.Employee;
@@ -47,4 +48,15 @@ public class EmployeeController {
 		return new ResponseEntity<String>("Data deleted successfully !! ", HttpStatus.NO_CONTENT);
 	}
 
+	@GetMapping("/byName")
+	public ResponseEntity<Employee> findByName(@RequestParam String name) {
+		Employee findByName = employeeService.findByName(name);
+		return new ResponseEntity<Employee>(findByName, HttpStatus.OK);
+	}
+
+	@GetMapping("/byDepartment")
+	public ResponseEntity<Employee> findByDepartment(@RequestParam String department) {
+		Employee findByDepartment = employeeService.findByDepartment(department);
+		return new ResponseEntity<Employee>(findByDepartment, HttpStatus.OK);
+	}
 }
