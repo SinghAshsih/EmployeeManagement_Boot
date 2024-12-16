@@ -1,7 +1,6 @@
 package com.employees.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.employees.entity.Employee;
 
@@ -13,4 +12,8 @@ public interface EmployeeService {
 	public void deleteEmployee(Integer id);
 
 	public Employee getEmployee(Integer id);
+
+	public Employee findByName(String name);
+
+	public Employee findByDepartment(String name);
 }
