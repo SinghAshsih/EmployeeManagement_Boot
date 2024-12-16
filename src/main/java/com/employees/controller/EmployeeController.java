@@ -1,12 +1,14 @@
 package com.employees.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,5 +60,11 @@ public class EmployeeController {
 	public ResponseEntity<Employee> findByDepartment(@RequestParam String department) {
 		Employee findByDepartment = employeeService.findByDepartment(department);
 		return new ResponseEntity<Employee>(findByDepartment, HttpStatus.OK);
+	}
+
+	@PatchMapping("/update/{id}")
+	public ResponseEntity<Employee> updateEmployeee(@RequestBody Map<String, Object> map, @PathVariable Integer id) {
+		Employee updatedEmployee = employeeService.updateEmployee(map,id);
+		return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.OK);
 	}
 }

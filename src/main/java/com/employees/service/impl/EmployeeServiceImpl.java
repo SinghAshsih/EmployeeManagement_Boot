@@ -1,7 +1,9 @@
 package com.employees.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,6 +77,43 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return findByDepartmentName.orElseThrow(
 					() -> new ResourceNotFoundException("Resource not found with the given name : " + name));
 		}
+	}
+
+	@Override
+	public Employee updateEmployee(Map<String, Object> map, Integer id) {
+		Optional<Employee> oldEmployee = employeeRepository.findById(id);
+		List<String> keys = map.entrySet().stream().map((key) -> key.getKey()).collect(Collectors.toList());
+
+		if (oldEmployee.isPresent()) {
+			for (String key : keys) {
+				switch (key) {
+				case "name":
+					oldEmployee.get().setName(map.get(key).toString());
+					break;
+				case "salary":
+					Object object = map.get(key);
+					String s = object.toString();
+					Float valueOf = Float.valueOf(s);
+					oldEmployee.get().setSalary(valueOf);
+					break;
+				case "department":
+					oldEmployee.get().setDepartment(map.get(key).toString());
+					break;
+				case "age":
+					oldEmployee.get().setAge((int) map.get(key));
+					break;
+				case "email":
+					oldEmployee.get().setEmail(map.get(key).toString());
+				}
+			}
+			Employee updated = employeeRepository.save(oldEmployee.get());
+
+			return updated;
+		} else {
+			return oldEmployee
+					.orElseThrow(() -> new ResourceNotFoundException("Resource not found with the given id : " + id));
+		}
+
 	}
 
 }
